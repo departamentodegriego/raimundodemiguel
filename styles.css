@@ -126,6 +126,36 @@ body{
   margin:.5rem 2px 0;
 }
 
+/* ---------- Sugerencias (typeahead) ---------- */
+
+.suggest{
+  list-style:none; margin:.3rem 0 0; padding:.25rem;
+  position:absolute; left:0; right:0; z-index:20;
+  background:#fbf7ee;
+  border:1px solid var(--rule);
+  border-radius:2px;
+  box-shadow:0 8px 24px rgba(60,45,20,.16);
+  max-height:18rem; overflow:auto;
+}
+.suggest[hidden]{ display:none; }
+.suggest li{
+  display:flex; align-items:baseline; gap:.6rem;
+  padding:.42rem .6rem; border-radius:2px; cursor:pointer;
+}
+.suggest li[aria-selected="true"],
+.suggest li:hover{ background:var(--paper-deep); }
+.suggest .s-lemma{
+  font-family:var(--display); font-size:1.18rem; color:var(--ink);
+}
+.suggest li[aria-selected="true"] .s-lemma{ color:var(--rubric); }
+.suggest .s-lemma mark{
+  background:transparent; color:var(--rubric); font-weight:600;
+}
+.suggest .s-gram{
+  font-family:var(--ui); font-size:.66rem; letter-spacing:.04em;
+  color:var(--ink-soft); margin-left:auto; white-space:nowrap;
+}
+
 /* ---------- Índice navegable (estado vacío) ---------- */
 
 .browse__head{

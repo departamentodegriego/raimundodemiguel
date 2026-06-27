@@ -24,11 +24,14 @@
       <label class="search__label" for="q">Buscar un lema latino</label>
       <input id="q" class="search__field" type="search" inputmode="search"
              autocomplete="off" autocapitalize="off" spellcheck="false"
+             role="combobox" aria-expanded="false" aria-controls="suggest"
+             aria-autocomplete="list" aria-activedescendant=""
              placeholder="Buscar un lema… (p. ej. adæque, adaequo)">
       <svg class="search__icon" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="1.6"/>
         <line x1="15.5" y1="15.5" x2="21" y2="21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
       </svg>
+      <ul id="suggest" class="suggest" role="listbox" aria-label="Sugerencias" hidden></ul>
     </div>
     <p class="search__count" id="count" aria-live="polite"></p>
 
@@ -43,18 +46,19 @@
   const q = document.getElementById('q');
   const view = document.getElementById('view');
   const count = document.getElementById('count');
-  let entries = [];
+  const box = document.getElementById('suggest');
+  let entries = [], suggestions = [], active = -1;
 
-  // Collator para ordenar respetando el alfabeto latino normalizado.
   const collator = new Intl.Collator('es', { sensitivity: 'base' });
   const byLemma = (a, b) => collator.compare(normalize(a.lemma), normalize(b.lemma));
+  const MAX = 8;
 
   fetch('entries.json')
     .then(r => { if (!r.ok) throw new Error('http'); return r.json(); })
     .then(data => {
       entries = data.slice().sort(byLemma);
       count.textContent = entries.length + ' entradas';
-      render('');
+      renderIndex();
     })
     .catch(() => {
       view.innerHTML = `<div class="notice">
@@ -65,40 +69,110 @@
       </div>`;
     });
 
+  // --- coincidencias ordenadas: primero las que empiezan por la consulta ---
   function matches(query){
     const nq = normalize(query);
     if (!nq) return [];
     const starts = [], contains = [];
     for (const e of entries){
-      const key = searchKey(e);
-      if (key.split(' ').some(k => k.startsWith(nq))) starts.push(e);
-      else if (key.includes(nq)) contains.push(e);
+      const keys = searchKey(e).split(' ');
+      if (keys.some(k => k.startsWith(nq))) starts.push(e);
+      else if (keys.some(k => k.includes(nq))) contains.push(e);
     }
     return starts.concat(contains);
   }
 
-  function render(query){
-    if (!query.trim()){
-      // Estado inicial: índice alfabético navegable.
-      const items = entries.map(e =>
-        `<li><button type="button" data-id="${e.id}">${esc(e.lemma)}</button></li>`
-      ).join('');
-      view.innerHTML = `<nav aria-label="Índice de lemas">
-        <p class="browse__head">Índice — toca un lema</p>
-        <ul class="browse__list">${items}</ul>
-      </nav>`;
-      view.querySelectorAll('button[data-id]').forEach(b => {
-        b.addEventListener('click', () => { q.value = ''; showOne(b.dataset.id); });
-      });
-      count.textContent = entries.length + ' entradas';
-      return;
+  // --- desplegable de sugerencias ---
+  function highlight(lemma, query){
+    const nq = normalize(query);
+    const chars = [...lemma];
+    // localiza el tramo del lema cuya normalización empieza por la consulta
+    for (let i = 0; i < chars.length; i++){
+      for (let j = chars.length; j > i; j--){
+        if (normalize(chars.slice(i, j).join('')).startsWith(nq) && nq){
+          // recorta al largo mínimo que cubre la consulta
+          let k = i + 1;
+          while (k <= j && !normalize(chars.slice(i, k).join('')).startsWith(nq)) k++;
+          return esc(chars.slice(0, i).join('')) +
+                 '<mark>' + esc(chars.slice(i, k).join('')) + '</mark>' +
+                 esc(chars.slice(k).join(''));
+        }
+      }
     }
+    return esc(lemma);
+  }
 
+  function showSuggestions(query){
+    suggestions = matches(query).slice(0, MAX);
+    active = -1;
+    if (!suggestions.length){ closeSuggest(); return; }
+    box.innerHTML = suggestions.map((e, i) => {
+      const gram = [e.grammar, e.register].filter(Boolean).join(' ');
+      return `<li id="opt-${i}" role="option" aria-selected="false" data-i="${i}">
+        <span class="s-lemma">${highlight(e.lemma, query)}</span>
+        ${gram ? `<span class="s-gram">${esc(gram)}</span>` : ''}
+      </li>`;
+    }).join('');
+    box.hidden = false;
+    q.setAttribute('aria-expanded', 'true');
+
+    box.querySelectorAll('li').forEach(li => {
+      li.addEventListener('mousedown', ev => { ev.preventDefault(); choose(+li.dataset.i); });
+    });
+  }
+
+  function closeSuggest(){
+    box.hidden = true; box.innerHTML = '';
+    q.setAttribute('aria-expanded', 'false');
+    q.setAttribute('aria-activedescendant', '');
+    suggestions = []; active = -1;
+  }
+
+  function setActive(i){
+    const items = box.querySelectorAll('li');
+    items.forEach(li => li.setAttribute('aria-selected', 'false'));
+    active = (i + items.length) % items.length;
+    const li = items[active];
+    li.setAttribute('aria-selected', 'true');
+    li.scrollIntoView({ block: 'nearest' });
+    q.setAttribute('aria-activedescendant', li.id);
+  }
+
+  function choose(i){
+    const e = suggestions[i];
+    if (!e) return;
+    q.value = e.lemma;
+    closeSuggest();
+    showEntry(e);
+  }
+
+  // --- vistas ---
+  function renderIndex(){
+    const items = entries.map(e =>
+      `<li><button type="button" data-id="${e.id}">${esc(e.lemma)}</button></li>`).join('');
+    view.innerHTML = `<nav aria-label="Índice de lemas">
+      <p class="browse__head">Índice — toca un lema</p>
+      <ul class="browse__list">${items}</ul></nav>`;
+    view.querySelectorAll('button[data-id]').forEach(b =>
+      b.addEventListener('click', () => {
+        const e = entries.find(x => x.id === b.dataset.id);
+        q.value = e ? e.lemma : ''; showEntry(e);
+      }));
+    count.textContent = entries.length + ' entradas';
+  }
+
+  function showEntry(e){
+    if (!e){ renderIndex(); return; }
+    count.textContent = '1 entrada';
+    view.innerHTML = `<section class="results"><p class="results__hint">Entrada</p>${renderEntry(e)}</section>`;
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }
+
+  function showResults(query){
     const found = matches(query);
     count.textContent = found.length
       ? found.length + (found.length === 1 ? ' resultado' : ' resultados')
       : 'Sin resultados';
-
     if (!found.length){
       view.innerHTML = `<div class="notice">
         No hay ningún lema que empiece o contenga <strong>“${esc(query)}”</strong>.
@@ -108,25 +182,42 @@
     }
     view.innerHTML = `<section class="results">
       <p class="results__hint">${found.length === 1 ? 'Entrada' : 'Entradas'}</p>
-      ${found.map(renderEntry).join('')}
-    </section>`;
+      ${found.map(renderEntry).join('')}</section>`;
   }
 
-  function showOne(id){
-    const e = entries.find(x => x.id === id);
-    if (!e) { render(''); return; }
-    count.textContent = '1 entrada';
-    view.innerHTML = `<section class="results">
-      <p class="results__hint">Entrada</p>${renderEntry(e)}
-    </section>`;
-    window.scrollTo({ top: 0, behavior: 'auto' });
-  }
-
+  // --- eventos ---
   let t;
   q.addEventListener('input', () => {
     clearTimeout(t);
-    t = setTimeout(() => render(q.value), 90);
+    const val = q.value;
+    t = setTimeout(() => {
+      if (!val.trim()){ closeSuggest(); renderIndex(); }
+      else showSuggestions(val);
+    }, 80);
   });
+
+  q.addEventListener('keydown', ev => {
+    const open = !box.hidden && suggestions.length;
+    switch (ev.key){
+      case 'ArrowDown': if (open){ ev.preventDefault(); setActive(active + 1); } break;
+      case 'ArrowUp':   if (open){ ev.preventDefault(); setActive(active - 1); } break;
+      case 'Enter':
+        ev.preventDefault();
+        if (open && active >= 0) choose(active);
+        else if (q.value.trim()){ closeSuggest(); showResults(q.value); }
+        break;
+      case 'Escape':
+        if (open) closeSuggest();
+        else { q.value = ''; renderIndex(); }
+        break;
+    }
+  });
+
+  q.addEventListener('focus', () => { if (q.value.trim()) showSuggestions(q.value); });
+  document.addEventListener('click', ev => {
+    if (!ev.target.closest('.search')) closeSuggest();
+  });
+
   q.focus();
 })();
 </script>
