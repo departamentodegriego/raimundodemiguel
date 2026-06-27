@@ -20,6 +20,11 @@ function esc(s){
     .replace(/"/g, '&quot;');
 }
 
+/* Como esc(), pero interpreta *texto* como cursiva (para ejemplos en latín). */
+function fmt(s){
+  return esc(s).replace(/\*([^*]+)\*/g, '<em>$1</em>');
+}
+
 /* Cadena de búsqueda de una entrada: lema + variantes, normalizados. */
 function searchKey(entry){
   if (entry.search) return entry.search;
@@ -45,9 +50,9 @@ function renderEntry(e){
     : '';
 
   const senses = (e.senses && e.senses.length > 1)
-    ? `<ol class="entry__senses">${e.senses.map(s => `<li>${esc(s)}</li>`).join('')}</ol>`
+    ? `<ol class="entry__senses">${e.senses.map(s => `<li>${fmt(s)}</li>`).join('')}</ol>`
     : ((e.senses && e.senses.length === 1)
-        ? `<p class="entry__sense">${esc(e.senses[0])}</p>`
+        ? `<p class="entry__sense">${fmt(e.senses[0])}</p>`
         : '');
 
   const cites = (e.citations && e.citations.length)

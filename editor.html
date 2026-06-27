@@ -73,7 +73,11 @@
         </div>
         <div class="field">
           <label for="senses">Acepciones <span class="hint">una por línea — se numeran solas si hay varias</span></label>
-          <textarea id="senses" placeholder="Tert. Adecuacion, igualacion."></textarea>
+          <textarea id="senses" placeholder="Igualar, *fortūnam cum virtūte*, Cic."></textarea>
+          <div class="btnbar" style="margin:.4rem 0 0">
+            <button type="button" class="btn btn--ghost btn--small" id="ital">Poner en cursiva la selección</button>
+            <span class="hint">o rodea el latín con *asteriscos*</span>
+          </div>
         </div>
         <div class="field">
           <label for="eq">Equivalentes <span class="hint">tras “= Eq.”, separados por coma</span></label>
@@ -212,6 +216,21 @@
 
   ['lemma','variants','register','morph','grammar','etym','senses','eq','note','source','page']
     .forEach(id => $(id).addEventListener('input', sync));
+
+  // ----- botón de cursiva en el campo de acepciones -----
+  $('ital').addEventListener('click', () => {
+    const ta = $('senses');
+    const s = ta.selectionStart, e = ta.selectionEnd, v = ta.value;
+    const sel = v.slice(s, e);
+    if (sel){
+      ta.value = v.slice(0, s) + '*' + sel + '*' + v.slice(e);
+      ta.selectionStart = s + 1; ta.selectionEnd = e + 1;
+    } else {
+      ta.value = v.slice(0, s) + '**' + v.slice(s);
+      ta.selectionStart = ta.selectionEnd = s + 1;   // cursor entre los asteriscos
+    }
+    ta.focus(); sync();
+  });
 
   // ----- acciones -----
   function refreshStack(){
