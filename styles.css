@@ -1,0 +1,363 @@
+/* ============================================================
+   Lexicon — De Miguel & Morante (1878)
+   Identidad: papel envejecido, lema rubricado, filete de medianil.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+:root{
+  --paper:      #f4efe2;
+  --paper-deep: #ece3d0;
+  --ink:        #221c14;
+  --ink-soft:   #5d5343;
+  --rubric:     #7c241a;   /* tinta rúbrica / iron-gall rojo */
+  --rubric-dim: #9a4034;
+  --rule:       #cdbd9d;
+  --rule-soft:  #ddd0b5;
+  --focus:      #355b6b;
+
+  --serif:   'Spectral', Georgia, 'Times New Roman', serif;
+  --display: 'Cormorant Garamond', 'Spectral', Georgia, serif;
+  --ui:      ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+*{ box-sizing:border-box; }
+
+html{ -webkit-text-size-adjust:100%; }
+
+body{
+  margin:0;
+  background:
+    radial-gradient(120% 80% at 50% -10%, #faf6ec 0%, var(--paper) 55%, var(--paper-deep) 100%);
+  background-attachment:fixed;
+  color:var(--ink);
+  font-family:var(--serif);
+  font-size:18px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+.wrap{
+  max-width:760px;
+  margin:0 auto;
+  padding:clamp(1.4rem,4vw,3rem) clamp(1.1rem,5vw,2rem) 5rem;
+}
+
+/* ---------- Cabecera ---------- */
+
+.masthead{
+  border-bottom:1px solid var(--rule);
+  padding-bottom:1.2rem;
+  margin-bottom:1.8rem;
+}
+.masthead__kicker{
+  font-family:var(--ui);
+  font-size:.66rem;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  margin:0 0 .5rem;
+}
+.masthead__title{
+  font-family:var(--display);
+  font-weight:600;
+  font-size:clamp(2.4rem,8vw,3.6rem);
+  line-height:1;
+  margin:0;
+  letter-spacing:.01em;
+}
+.masthead__title .amp{ color:var(--rubric); font-style:italic; }
+.masthead__sub{
+  margin:.6rem 0 0;
+  color:var(--ink-soft);
+  font-style:italic;
+  font-size:1rem;
+}
+.masthead__nav{
+  margin-top:1rem;
+  font-family:var(--ui);
+  font-size:.78rem;
+  letter-spacing:.04em;
+}
+.masthead__nav a{
+  color:var(--rubric);
+  text-decoration:none;
+  border-bottom:1px solid transparent;
+  padding-bottom:1px;
+}
+.masthead__nav a:hover,
+.masthead__nav a:focus-visible{ border-bottom-color:var(--rubric); }
+.masthead__nav span{ color:var(--rule); margin:0 .55rem; }
+
+/* ---------- Buscador ---------- */
+
+.search{ position:relative; margin-bottom:.4rem; }
+.search__label{
+  position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0);
+}
+.search__field{
+  width:100%;
+  font-family:var(--display);
+  font-size:1.5rem;
+  color:var(--ink);
+  background:#fbf7ee;
+  border:1px solid var(--rule);
+  border-radius:2px;
+  padding:.7rem 2.6rem .7rem 1rem;
+  box-shadow:inset 0 1px 3px rgba(60,45,20,.10);
+  transition:border-color .15s ease, box-shadow .15s ease;
+}
+.search__field::placeholder{ color:#b6a888; font-style:italic; }
+.search__field:focus-visible{
+  outline:none;
+  border-color:var(--focus);
+  box-shadow:inset 0 1px 3px rgba(60,45,20,.10), 0 0 0 3px rgba(53,91,107,.18);
+}
+.search__icon{
+  position:absolute; right:.85rem; top:50%; transform:translateY(-50%);
+  color:var(--rubric); pointer-events:none; opacity:.8;
+}
+.search__count{
+  font-family:var(--ui);
+  font-size:.72rem;
+  letter-spacing:.06em;
+  color:var(--ink-soft);
+  margin:.5rem 2px 0;
+}
+
+/* ---------- Índice navegable (estado vacío) ---------- */
+
+.browse__head{
+  font-family:var(--ui);
+  font-size:.68rem;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  margin:2.2rem 0 .8rem;
+}
+.browse__list{
+  list-style:none; margin:0; padding:0;
+  columns:2; column-gap:2rem;
+}
+@media (max-width:520px){ .browse__list{ columns:1; } }
+.browse__list li{ break-inside:avoid; margin:0; }
+.browse__list button{
+  appearance:none; background:none; border:0; cursor:pointer;
+  font-family:var(--serif); font-size:1.02rem; color:var(--ink);
+  padding:.18rem 0; text-align:left; width:100%;
+  border-bottom:1px dotted transparent;
+}
+.browse__list button:hover,
+.browse__list button:focus-visible{
+  color:var(--rubric); outline:none; border-bottom-color:var(--rule);
+}
+
+/* ---------- Resultados ---------- */
+
+.results{ margin-top:1.8rem; }
+.results__hint{
+  font-family:var(--ui);
+  font-size:.68rem; letter-spacing:.28em; text-transform:uppercase;
+  color:var(--ink-soft); margin:0 0 1rem;
+}
+
+/* ---------- La ENTRADA (núcleo tipográfico) ---------- */
+
+.entry{
+  position:relative;
+  padding:1.3rem 0 1.5rem 1.4rem;
+  border-top:1px solid var(--rule-soft);
+}
+.entry:first-child{ border-top:0; }
+/* filete de medianil que evoca la columna impresa */
+.entry::before{
+  content:""; position:absolute; left:0; top:1.5rem; bottom:1.5rem;
+  width:2px; background:linear-gradient(var(--rule),var(--rule-soft));
+}
+
+.entry__head{ margin-bottom:.35rem; }
+.entry__lemma{
+  font-family:var(--display);
+  font-weight:600;
+  font-size:2rem;
+  line-height:1.1;
+  margin:0;
+  display:inline;
+}
+.entry__lemma .rubric{ color:var(--rubric); }
+.entry__lemma .dagger{ color:var(--rubric-dim); font-size:1.3rem; vertical-align:.1em; }
+.entry__lemma .vel{ color:var(--ink-soft); font-style:italic; font-weight:500; font-size:1.3rem; }
+.entry__morph{
+  display:inline;
+  font-style:italic;
+  color:var(--ink-soft);
+  font-size:1rem;
+  margin-left:.4rem;
+}
+
+.entry__etym{
+  margin:.45rem 0 0;
+  color:var(--ink-soft);
+  font-size:.96rem;
+}
+.entry__etym .br{ color:var(--rubric-dim); }
+
+.entry__sense{ margin:.55rem 0 0; }
+.entry__sense em, .entry__sense i{ color:#3f3526; }
+
+.entry__cites{ list-style:none; margin:.6rem 0 0; padding:0; }
+.entry__cites li{
+  margin:.28rem 0; padding-left:1rem; position:relative;
+  font-size:.98rem;
+}
+.entry__cites li::before{
+  content:"—"; position:absolute; left:0; color:var(--rule); 
+}
+.entry__cites .la{ font-style:italic; }
+.entry__cites .au{
+  font-variant:small-caps; letter-spacing:.04em; color:var(--rubric-dim);
+  font-style:normal;
+}
+.entry__cites .es{ color:var(--ink-soft); }
+
+.entry__eq{ margin:.6rem 0 0; font-size:.98rem; }
+.entry__eq .mark{
+  font-variant:small-caps; letter-spacing:.05em; color:var(--rubric);
+  font-weight:600;
+}
+.entry__eq em{ font-style:italic; }
+
+.entry__note{
+  margin:.55rem 0 0; font-size:.92rem; color:var(--ink-soft);
+}
+.entry__note::before{
+  content:"Nota"; font-family:var(--ui); font-size:.6rem; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--rubric-dim); margin-right:.5rem;
+  border:1px solid var(--rule); padding:.05rem .35rem; border-radius:2px;
+}
+
+.entry__src{
+  margin:.8rem 0 0;
+  font-family:var(--ui); font-size:.66rem; letter-spacing:.08em;
+  color:#a99877;
+}
+
+/* ---------- Estado vacío / error ---------- */
+
+.notice{
+  border:1px solid var(--rule);
+  background:#fbf7ee;
+  border-radius:2px;
+  padding:1.1rem 1.2rem;
+  margin-top:1.5rem;
+  color:var(--ink-soft);
+  font-size:.96rem;
+}
+.notice strong{ color:var(--ink); }
+.notice code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:.82em; background:var(--paper-deep); padding:.1rem .35rem; border-radius:2px;
+}
+
+/* ============================================================
+   Editor
+   ============================================================ */
+
+.tool{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:1.6rem;
+}
+@media (min-width:920px){
+  .tool{ grid-template-columns:1fr 1fr; align-items:start; }
+  .tool__live{ position:sticky; top:1.5rem; }
+}
+
+fieldset{
+  border:1px solid var(--rule);
+  border-radius:2px;
+  padding:1rem 1.1rem 1.2rem;
+  margin:0 0 1.2rem;
+  background:#fbf7ee;
+}
+legend{
+  font-family:var(--ui); font-size:.66rem; letter-spacing:.22em;
+  text-transform:uppercase; color:var(--rubric); padding:0 .5rem;
+}
+
+.field{ margin:0 0 .9rem; }
+.field:last-child{ margin-bottom:0; }
+.field label{
+  display:block; font-family:var(--ui); font-size:.72rem; letter-spacing:.04em;
+  color:var(--ink-soft); margin-bottom:.3rem;
+}
+.field .hint{ color:#a99877; font-style:italic; }
+.field input, .field textarea, .field select{
+  width:100%; font-family:var(--serif); font-size:1rem; color:var(--ink);
+  background:#fff; border:1px solid var(--rule); border-radius:2px;
+  padding:.5rem .65rem;
+}
+.field textarea{ min-height:4.5rem; resize:vertical; line-height:1.5; }
+.field input:focus-visible, .field textarea:focus-visible, .field select:focus-visible{
+  outline:none; border-color:var(--focus); box-shadow:0 0 0 3px rgba(53,91,107,.18);
+}
+
+.row2{ display:grid; grid-template-columns:1fr 1fr; gap:.7rem; }
+@media (max-width:520px){ .row2{ grid-template-columns:1fr; } }
+
+.cite-row{
+  display:grid; grid-template-columns:1fr; gap:.4rem;
+  border-left:2px solid var(--rule); padding-left:.7rem; margin-bottom:.7rem;
+}
+.cite-row .cite-meta{ display:grid; grid-template-columns:1fr 2fr; gap:.4rem; }
+@media (max-width:520px){ .cite-row .cite-meta{ grid-template-columns:1fr; } }
+
+.btn{
+  appearance:none; cursor:pointer; font-family:var(--ui);
+  font-size:.78rem; letter-spacing:.04em;
+  border:1px solid var(--rubric); background:var(--rubric); color:#fbf7ee;
+  padding:.5rem .9rem; border-radius:2px;
+  transition:background .15s ease;
+}
+.btn:hover, .btn:focus-visible{ background:var(--rubric-dim); outline:none; }
+.btn:focus-visible{ box-shadow:0 0 0 3px rgba(124,36,26,.25); }
+.btn--ghost{ background:transparent; color:var(--rubric); }
+.btn--ghost:hover, .btn--ghost:focus-visible{ background:var(--paper-deep); color:var(--rubric); }
+.btn--small{ font-size:.7rem; padding:.32rem .6rem; }
+
+.btnbar{ display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin:.4rem 0 1.2rem; }
+
+.json{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:.78rem; line-height:1.5; color:var(--ink);
+  background:#fbf7ee; border:1px solid var(--rule); border-radius:2px;
+  padding:.9rem 1rem; white-space:pre-wrap; word-break:break-word;
+  max-height:24rem; overflow:auto;
+}
+
+.stack{
+  font-family:var(--ui); font-size:.78rem; color:var(--ink-soft);
+  border:1px solid var(--rule); border-radius:2px; background:#fbf7ee;
+  padding:.7rem .9rem; margin-top:1rem;
+}
+.stack strong{ color:var(--rubric); }
+.stack ul{ margin:.5rem 0 0; padding-left:1.1rem; max-height:9rem; overflow:auto; }
+.stack li{ margin:.12rem 0; }
+
+.live-label{
+  font-family:var(--ui); font-size:.66rem; letter-spacing:.22em;
+  text-transform:uppercase; color:var(--ink-soft); margin:0 0 .6rem;
+}
+
+.toast{
+  position:fixed; left:50%; bottom:1.5rem; transform:translateX(-50%) translateY(1rem);
+  background:var(--ink); color:var(--paper); font-family:var(--ui); font-size:.8rem;
+  padding:.6rem 1rem; border-radius:3px; opacity:0; pointer-events:none;
+  transition:opacity .2s ease, transform .2s ease; z-index:50;
+}
+.toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+@media (prefers-reduced-motion:reduce){
+  *{ transition:none !important; animation:none !important; }
+}

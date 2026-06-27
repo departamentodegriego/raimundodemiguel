@@ -1,0 +1,329 @@
+[
+  {
+    "id": "adad",
+    "lemma": "Adad",
+    "variants": ["Adadus"],
+    "search": "adad adadus",
+    "morph": "i",
+    "grammar": "m.",
+    "senses": ["Macr. Adad, el sol, supremo dios de los Asirios, á quien daban tambien una diosa por mujer, llamada Atargatis, entendiendo la tierra."],
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adad-bibl",
+    "lemma": "Adad",
+    "search": "adad",
+    "grammar": "m. indec.",
+    "senses": ["Bibl. Nombre de varios reyes."],
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adaequatio",
+    "lemma": "adæquātĭo",
+    "search": "adaequatio",
+    "morph": "ōnis",
+    "grammar": "f.",
+    "etym": "de adæquo = igualar",
+    "senses": ["Tert. Adecuacion, igualacion.; Ulp. Division por partes iguales."],
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adaequatus",
+    "lemma": "adæquātus",
+    "search": "adaequatus",
+    "morph": "a, um",
+    "grammar": "part. p. de adæquo",
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adaeque",
+    "lemma": "adæque",
+    "search": "adaeque",
+    "grammar": "adv.",
+    "etym": "de ad y æque = igualmente: sol. le us. Plaut., Front. y Apul., y acompañado siempre de palabras negativas, como nemo, nunquam, neque, nullus, lo cual da á la frase una significacion comparativa: así es que se junta algunas veces con un ablativo de comparacion, y aun pleonásticamente con un comparativo",
+    "senses": ["Igualmente, comparativamente con, sin distincion, sin diferencia."],
+    "citations": [
+      {"la": "Nulla est adæque Achĕruns atque ubi ego fui", "au": "Plaut.", "es": "imposible infierno tan grande como el que á mí me ha cabido en suerte."},
+      {"la": "Qui homĭne homĭnum adæque nemo vivit fortunatĭor", "au": "Plaut.", "es": "en todo el género humano no hay uno más afortunado que él."},
+      {"la": "Neque munda adæque es ut soles", "au": "Plaut.", "es": "ni vas tan curiosa, tan aseada como de ordinario."}
+    ],
+    "eq": ["Æque", "peræque", "parĭter", "eōdem modo"],
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adaequo",
+    "lemma": "adæquo",
+    "search": "adaequo",
+    "morph": "as, āvi, ātum, āre",
+    "grammar": "a.",
+    "etym": "de ad y æquo = igualar",
+    "senses": ["Igualar, fortūnam cum virtūte, Cic.; arrasar, destruir, tecta solo, Liv.; perpetuar, hacer durar, nomen cum omni posteritāte, Cic.; igualar, nivelar, colonias jure urbi."],
+    "citations": [
+      {"la": "Judĭces adæquārunt", "au": "Cic.", "es": "se empataron los votos de los jueces."},
+      {"la": "Turris quae mœnĭbus adæquāret", "au": "Hirt.", "es": "una torre que igualara en altura á las murallas, tan alta como las murallas."},
+      {"la": "Navĭum cursum adæquavērunt", "au": "Cæs.", "es": "corrieron tanto como las naves."},
+      {"la": "Equĭtum urna adæquāvit", "au": "Cic.", "es": "los votos de los caballeros se repartieron igualmente, por mitad."},
+      {"la": "Adæquāre vitam deōrum", "au": "Cic.", "es": "conseguir la eterna vida de los dioses."},
+      {"la": "Adæquāre genus mortis magni Alexāndri fatis", "au": "Tac.", "es": "comparar aquel género de muerte con el destino de Alejandro."}
+    ],
+    "eq": ["Æquo", "æquāle facio", "exæquo", "compăro", "assĕquor"],
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adaeratio",
+    "lemma": "adærātĭo",
+    "search": "adaeratio",
+    "morph": "ōnis",
+    "grammar": "f.",
+    "etym": "de adæro = tasar",
+    "senses": ["Dig. Tasa, estimacion, valuacion de una cosa."],
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adaeratus",
+    "lemma": "adærātus",
+    "search": "adaeratus",
+    "morph": "a, um",
+    "grammar": "part. p. de adæro",
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adaero",
+    "lemma": "adæro",
+    "search": "adaero",
+    "morph": "as, āvi, ātum, āre",
+    "grammar": "a.",
+    "etym": "de ad y æs = dinero",
+    "senses": ["Tasar, estimar, valuar en dinero, debĭta reliquōrum, Amm.; ajustar, hacer la cuenta, calcular, subjēctas partes, Plin."],
+    "eq": ["Ære", "pecunĭa æstĭmo", "taxo"],
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adaestuo",
+    "lemma": "adæstŭo",
+    "search": "adaestuo",
+    "morph": "as, āvi, ātum, āre",
+    "grammar": "n.",
+    "etym": "de ad y æstŭo = bullir",
+    "senses": ["Hincharse, crecer, salir de madre, desbordarse, amnis, Stat."],
+    "eq": ["Circa alĭquid æstŭo"],
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adaggeratus",
+    "lemma": "adaggĕrātus",
+    "search": "adaggeratus",
+    "morph": "a, um",
+    "grammar": "Plin. part. p. de adaggĕro",
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adaggero",
+    "lemma": "adaggĕro",
+    "search": "adaggero",
+    "morph": "as, āvi, ātum, āre",
+    "grammar": "a.",
+    "etym": "de ad y aggĕro = amontonar",
+    "senses": ["Amontonar, juntar, acumular, terram bene, Cat. —"],
+    "note": "Entrada cortada por el pie de columna en el original; final pendiente de transcribir.",
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adamantinus",
+    "lemma": "adămantĭnus",
+    "search": "adamantinus",
+    "morph": "a, um",
+    "etym": "de adămas = diamante",
+    "senses": ["Lucr. Diamantino, lo que es de diamante; Hor. Muy duro; Incontrastable, inexpugnable, invencible, inflexible."],
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adamantis",
+    "lemma": "adămantĭs",
+    "search": "adamantis",
+    "morph": "ĭdis",
+    "grammar": "f.",
+    "etym": "de à — privat. y δαμάω = domar",
+    "senses": ["Plin. Yerba así llamada porque con ninguna fuerza se puede quebrar."],
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adamantius",
+    "lemma": "Adămantĭus",
+    "search": "adamantius",
+    "morph": "ĭi",
+    "grammar": "m.",
+    "senses": ["Cass. nombre de un gramático."],
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adamas",
+    "lemma": "adămas",
+    "search": "adamas",
+    "morph": "āntis",
+    "grammar": "m.",
+    "etym": "ἀδάμας",
+    "senses": ["Plin. Diamante, piedra preciosa, sumamente dura; Hierro."],
+    "citations": [
+      {"la": "Solĭdo adamānte colūmnæ", "au": "Virg.", "es": "columnas de hierro macizo."}
+    ],
+    "note": "met. Carácter inexorable.",
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adamastor",
+    "lemma": "Adamāstor",
+    "search": "adamastor",
+    "morph": "ŏris",
+    "grammar": "m.",
+    "senses": ["Sid. nombre de un gigante."],
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adamastus",
+    "lemma": "Adamāstus",
+    "search": "adamastus",
+    "morph": "i",
+    "grammar": "m.",
+    "senses": ["Virg. El padre de Aquemenides, natural de Itaca."],
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adamator",
+    "lemma": "adămator",
+    "search": "adamator",
+    "register": "†",
+    "morph": "ōris",
+    "grammar": "m.",
+    "etym": "de adămo = amar mucho",
+    "senses": ["Tert. Amador, amante."],
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adamatus",
+    "lemma": "adămātus",
+    "search": "adamatus",
+    "morph": "a, um",
+    "grammar": "part. p. de adămo",
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adambulo",
+    "lemma": "adambŭlo",
+    "search": "adambulo",
+    "morph": "as, āvi, ātum, āre",
+    "grammar": "n.",
+    "etym": "de ad y ambŭlo = pasear: rar., y solam. us. ant. y desp. de la ép. clás.",
+    "senses": ["Ir andando, pasearse al lado de, cerca de, ad ostium, Plaut., latĕri alicūjus, seni, Apul."],
+    "eq": ["Ad ó juxta alĭquem locum ambŭlo"],
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adamenon",
+    "lemma": "adamēnon",
+    "search": "adamenon",
+    "morph": "i",
+    "grammar": "n.",
+    "senses": ["Apul. El beleño, yerba."],
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adamiani",
+    "lemma": "Adamiāni",
+    "variants": ["Adamītæ"],
+    "search": "adamiani adamitae",
+    "morph": "ōrum / ārum",
+    "grammar": "m. plur.",
+    "senses": ["Isid. Herejes denominados de Adan, adamianos, que andaban desnudos, imitando su desnudez antes del pecado."],
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adamita",
+    "lemma": "adamĭta",
+    "search": "adamita",
+    "morph": "æ",
+    "grammar": "f.",
+    "etym": "de ad y amĭta = tia",
+    "senses": ["Isid. Hermana del tatarabuelo ó de la tatarabuela."],
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adamo",
+    "lemma": "adămo",
+    "search": "adamo",
+    "morph": "as, āvi, ātum, āre",
+    "grammar": "a.",
+    "etym": "de ad y amo = amar",
+    "senses": ["Comenzar á amar, tomar afecto á, enamorarse de, querer, alĭquid, Cic.; aprobar, acariciar interiormente, sententĭam alicūjus, Cic."],
+    "citations": [
+      {"la": "Adamāre", "au": "Quint.", "es": "comenzar á amar, enamorarse."},
+      {"la": "Adamāre virtūtem", "au": "Sen.", "es": "amar mucho la virtud."}
+    ],
+    "eq": ["Amāre incipĭo", "valde amo", "deămo"],
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adampliatus",
+    "lemma": "adamplĭātus",
+    "search": "adampliatus",
+    "register": "†",
+    "morph": "a, um",
+    "grammar": "part. p. de adamplĭo",
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adamplio",
+    "lemma": "adamplĭo",
+    "search": "adamplio",
+    "register": "†",
+    "morph": "as, āvi, ātum, āre",
+    "grammar": "a.",
+    "etym": "de ad y amplĭo = ampliar",
+    "senses": ["Ampliar, ensanchar más, ædicŭlam, Inscr."],
+    "eq": ["Valde amplĭo", "amplifĭco"],
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adamus",
+    "lemma": "Adămus",
+    "variants": ["Adam"],
+    "search": "adamus adam",
+    "morph": "i / æ",
+    "grammar": "m.",
+    "etym": "Ἀδάμ",
+    "senses": ["Isid. Adan, nombre del primer hombre. Significa terreno ó tierra roja."],
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adamussim",
+    "lemma": "adămussim",
+    "search": "adamussim",
+    "grammar": "adv.",
+    "etym": "de ad y amussis = regla, nivel",
+    "senses": ["Varr. Con cuidado, con exactitud. V. amussis."],
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adana",
+    "lemma": "Adăna",
+    "search": "adana",
+    "morph": "ōrum",
+    "grammar": "n. plur.",
+    "senses": ["Plin. Adana, c. de Cilicia."],
+    "source": "De Miguel–Morante 1878"
+  },
+  {
+    "id": "adaperio",
+    "lemma": "adăpĕrĭo",
+    "search": "adaperio",
+    "morph": "is, ŭi, pērtum, rīre",
+    "grammar": "a.",
+    "etym": "de ad y aperĭo = abrir: no se enc. en Cic.",
+    "senses": ["Abrir del todo, fores, Liv.; descubrir, caput, Sen."],
+    "citations": [
+      {"la": "Nubes adaperuēre coelum", "au": "Plin.", "es": "quedó el cielo despejado."}
+    ],
+    "eq": ["aperĭo", "reclūdo", "pando", "prorsus aperĭo", "detĕgo"],
+    "source": "De Miguel–Morante 1878"
+  }
+]
