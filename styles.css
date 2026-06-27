@@ -236,6 +236,26 @@ body{
 .entry__sense{ margin:.55rem 0 0; }
 .entry__sense em, .entry__sense i{ color:#3f3526; }
 
+.entry__senses{
+  margin:.55rem 0 0; padding:0; list-style:none; counter-reset:sense;
+}
+.entry__senses li{
+  position:relative; padding-left:1.7rem; margin:.3rem 0;
+  counter-increment:sense;
+}
+.entry__senses li::before{
+  content:counter(sense);
+  position:absolute; left:0; top:.04em;
+  font-family:var(--ui); font-size:.72rem; font-weight:600;
+  color:var(--rubric);
+  width:1.15rem; text-align:right;
+}
+.entry__senses li::after{
+  content:""; position:absolute; left:1.32rem; top:.35em; bottom:.35em;
+  width:1px; background:var(--rule-soft);
+}
+.entry__senses em, .entry__senses i{ color:#3f3526; }
+
 .entry__cites{ list-style:none; margin:.6rem 0 0; padding:0; }
 .entry__cites li{
   margin:.28rem 0; padding-left:1rem; position:relative;

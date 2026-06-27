@@ -44,9 +44,11 @@ function renderEntry(e){
     ? `<p class="entry__etym"><span class="br">[</span>${esc(e.etym)}<span class="br">]</span></p>`
     : '';
 
-  const senses = (e.senses && e.senses.length)
-    ? `<p class="entry__sense">${e.senses.map(esc).join(' ')}</p>`
-    : '';
+  const senses = (e.senses && e.senses.length > 1)
+    ? `<ol class="entry__senses">${e.senses.map(s => `<li>${esc(s)}</li>`).join('')}</ol>`
+    : ((e.senses && e.senses.length === 1)
+        ? `<p class="entry__sense">${esc(e.senses[0])}</p>`
+        : '');
 
   const cites = (e.citations && e.citations.length)
     ? `<ul class="entry__cites">${e.citations.map(c => {

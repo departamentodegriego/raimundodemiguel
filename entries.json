@@ -31,7 +31,8 @@
     "grammar": "f.",
     "etym": "de adæquo = igualar",
     "senses": [
-      "Tert. Adecuacion, igualacion.; Ulp. Division por partes iguales."
+      "Tert. Adecuacion, igualacion.",
+      "Ulp. Division por partes iguales."
     ],
     "source": "De Miguel–Morante 1878"
   },
@@ -85,7 +86,10 @@
     "grammar": "a.",
     "etym": "de ad y æquo = igualar",
     "senses": [
-      "Igualar, fortūnam cum virtūte, Cic.; arrasar, destruir, tecta solo, Liv.; perpetuar, hacer durar, nomen cum omni posteritāte, Cic.; igualar, nivelar, colonias jure urbi."
+      "Igualar, fortūnam cum virtūte, Cic.",
+      "arrasar, destruir, tecta solo, Liv.",
+      "perpetuar, hacer durar, nomen cum omni posteritāte, Cic.",
+      "igualar, nivelar, colonias jure urbi."
     ],
     "citations": [
       {
@@ -156,7 +160,8 @@
     "grammar": "a.",
     "etym": "de ad y æs = dinero",
     "senses": [
-      "Tasar, estimar, valuar en dinero, debĭta reliquōrum, Amm.; ajustar, hacer la cuenta, calcular, subjēctas partes, Plin."
+      "Tasar, estimar, valuar en dinero, debĭta reliquōrum, Amm.",
+      "ajustar, hacer la cuenta, calcular, subjēctas partes, Plin."
     ],
     "eq": [
       "Ære",
@@ -208,7 +213,9 @@
     "morph": "a, um",
     "etym": "de adămas = diamante",
     "senses": [
-      "Lucr. Diamantino, lo que es de diamante; Hor. Muy duro; Incontrastable, inexpugnable, invencible, inflexible."
+      "Lucr. Diamantino, lo que es de diamante",
+      "Hor. Muy duro",
+      "Incontrastable, inexpugnable, invencible, inflexible."
     ],
     "source": "De Miguel–Morante 1878"
   },
@@ -243,7 +250,8 @@
     "grammar": "m.",
     "etym": "ἀδάμας",
     "senses": [
-      "Plin. Diamante, piedra preciosa, sumamente dura; Hierro."
+      "Plin. Diamante, piedra preciosa, sumamente dura",
+      "Hierro."
     ],
     "citations": [
       {
@@ -358,7 +366,8 @@
     "grammar": "a.",
     "etym": "de ad y amo = amar",
     "senses": [
-      "Comenzar á amar, tomar afecto á, enamorarse de, querer, alĭquid, Cic.; aprobar, acariciar interiormente, sententĭam alicūjus, Cic."
+      "Comenzar á amar, tomar afecto á, enamorarse de, querer, alĭquid, Cic.",
+      "aprobar, acariciar interiormente, sententĭam alicūjus, Cic."
     ],
     "citations": [
       {
@@ -450,7 +459,8 @@
     "grammar": "a.",
     "etym": "de ad y aperĭo = abrir: no se enc. en Cic.",
     "senses": [
-      "Abrir del todo, fores, Liv.; descubrir, caput, Sen."
+      "Abrir del todo, fores, Liv.",
+      "descubrir, caput, Sen."
     ],
     "citations": [
       {
@@ -465,32 +475,6 @@
       "pando",
       "prorsus aperĭo",
       "detĕgo"
-    ],
-    "source": "De Miguel–Morante 1878"
-  },
-  {
-    "id": "boudica",
-    "lemma": "Boudica",
-    "search": "boudica",
-    "morph": "ae",
-    "grammar": "f",
-    "etym": "Ide h2echd hdhfhcdhdb chhcdhhdhd hchfdhdhdhdh",
-    "senses": [
-      "1. Nombredekdkdjdjd hdjdjdjddj",
-      "2. posible hfhfhffhd",
-      "3. Jdjdjddjdjdjd"
-    ],
-    "citations": [
-      {
-        "la": "Boudica est in",
-        "au": "Cic.",
-        "es": ""
-      },
-      {
-        "la": "Boudica est in",
-        "au": "Cic.",
-        "es": ""
-      }
     ],
     "source": "De Miguel–Morante 1878"
   }
