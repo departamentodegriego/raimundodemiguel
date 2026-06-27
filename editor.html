@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Añadir entradas — Lexicon</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="masthead__kicker">Nuevo diccionario latino-español etimológico</p>
+    <h1 class="masthead__title">Editor</h1>
+    <p class="masthead__sub">Transcribe una entrada, revísala y descarga el <code>entries.json</code> actualizado.</p>
+    <nav class="masthead__nav" aria-label="Secciones">
+      <a href="index.html">Consultar</a><span>·</span><a href="editor.html" aria-current="page">Añadir entradas</a>
+    </nav>
+  </header>
+
+  <main class="tool">
+
+    <!-- ---------- Formulario ---------- -->
+    <form id="form" autocomplete="off">
+
+      <fieldset>
+        <legend>Cargar el fichero existente</legend>
+        <div class="field">
+          <label for="file">Empieza por aquí: carga tu <code>entries.json</code> actual para añadir sobre él.
+            <span class="hint">Si es el primero, sáltatelo.</span></label>
+          <input id="file" type="file" accept=".json,application/json">
+        </div>
+        <p class="search__count" id="loaded">0 entradas cargadas en memoria.</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>Cabecera</legend>
+        <div class="field">
+          <label for="lemma">Lema <span class="hint">tal cual aparece, con æ y cantidades — p. ej. <em>adæque</em></span></label>
+          <input id="lemma" required>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="variants">Variantes <span class="hint">separadas por coma</span></label>
+            <input id="variants" placeholder="Adadus">
+          </div>
+          <div class="field">
+            <label for="register">Marca de registro</label>
+            <select id="register">
+              <option value="">— ninguna —</option>
+              <option value="†">† (baja latinidad / poco uso)</option>
+              <option value="?">? (lectura dudosa)</option>
+            </select>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="morph">Flexión <span class="hint">ōnis · as, āvi, ātum, āre</span></label>
+            <input id="morph" placeholder="ōnis">
+          </div>
+          <div class="field">
+            <label for="grammar">Categoría <span class="hint">f. · a. · adv. · part. p. de…</span></label>
+            <input id="grammar" placeholder="f.">
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Cuerpo</legend>
+        <div class="field">
+          <label for="etym">Etimología <span class="hint">contenido del corchete [ … ]</span></label>
+          <textarea id="etym" placeholder="de adæquo = igualar"></textarea>
+        </div>
+        <div class="field">
+          <label for="senses">Acepciones <span class="hint">una por línea</span></label>
+          <textarea id="senses" placeholder="Tert. Adecuacion, igualacion."></textarea>
+        </div>
+        <div class="field">
+          <label for="eq">Equivalentes <span class="hint">tras “= Eq.”, separados por coma</span></label>
+          <input id="eq" placeholder="Æque, peræque, parĭter">
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Citas <span class="hint">los ejemplos tras el guion —</span></legend>
+        <div id="cites"></div>
+        <button type="button" class="btn btn--ghost btn--small" id="addCite">+ añadir cita</button>
+      </fieldset>
+
+      <fieldset>
+        <legend>Procedencia</legend>
+        <div class="field">
+          <label for="note">Nota del editor <span class="hint">lecturas dudosas, recortes…</span></label>
+          <textarea id="note"></textarea>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="source">Fuente</label>
+            <input id="source" value="De Miguel–Morante 1878">
+          </div>
+          <div class="field">
+            <label for="page">Página</label>
+            <input id="page" placeholder="33">
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="btnbar">
+        <button type="submit" class="btn">Añadir entrada a la lista</button>
+        <button type="button" class="btn btn--ghost" id="clear">Vaciar formulario</button>
+      </div>
+
+      <div class="stack">
+        <strong id="pendCount">0</strong> entradas en la lista lista para exportar.
+        <ul id="pendList"></ul>
+        <div class="btnbar" style="margin:.8rem 0 0">
+          <button type="button" class="btn" id="download">Descargar entries.json</button>
+          <button type="button" class="btn btn--ghost" id="copyAll">Copiar todo el JSON</button>
+        </div>
+      </div>
+    </form>
+
+    <!-- ---------- Vista en vivo ---------- -->
+    <div class="tool__live">
+      <p class="live-label">Vista previa de la entrada</p>
+      <div id="preview"></div>
+      <p class="live-label" style="margin-top:1.5rem">JSON de esta entrada</p>
+      <pre class="json" id="json"></pre>
+      <div class="btnbar">
+        <button type="button" class="btn btn--ghost btn--small" id="copyOne">Copiar este JSON</button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="lexicon.js"></script>
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  let pending = [];   // entradas acumuladas (cargadas + añadidas)
+
+  // ----- citas dinámicas -----
+  const citesBox = $('cites');
+  function addCiteRow(c = {}){
+    const row = document.createElement('div');
+    row.className = 'cite-row';
+    row.innerHTML = `
+      <input class="c-la" placeholder="Latín — Nulla est adæque Achĕruns…" value="${esc(c.la||'')}">
+      <div class="cite-meta">
+        <input class="c-au" placeholder="Autor — Plaut." value="${esc(c.au||'')}">
+        <input class="c-es" placeholder="Traducción castellana" value="${esc(c.es||'')}">
+      </div>
+      <button type="button" class="btn btn--ghost btn--small c-del">quitar cita</button>`;
+    row.querySelector('.c-del').addEventListener('click', () => { row.remove(); sync(); });
+    row.querySelectorAll('input').forEach(i => i.addEventListener('input', sync));
+    citesBox.appendChild(row);
+  }
+  $('addCite').addEventListener('click', () => { addCiteRow(); });
+
+  // ----- construir la entrada desde el formulario -----
+  function splitList(v){ return v.split(',').map(s => s.trim()).filter(Boolean); }
+  function splitLines(v){ return v.split('\n').map(s => s.trim()).filter(Boolean); }
+
+  function uniqueId(base){
+    let id = base || 'entrada', n = 2;
+    const taken = new Set(pending.map(e => e.id));
+    while (taken.has(id)) id = base + '-' + (n++);
+    return id;
+  }
+
+  function collect(){
+    const lemma = $('lemma').value.trim();
+    const variants = splitList($('variants').value);
+    const cites = [...citesBox.querySelectorAll('.cite-row')].map(r => ({
+      la: r.querySelector('.c-la').value.trim(),
+      au: r.querySelector('.c-au').value.trim(),
+      es: r.querySelector('.c-es').value.trim()
+    })).filter(c => c.la || c.au || c.es);
+
+    const e = {
+      id: uniqueId(normalize(lemma)),
+      lemma,
+      search: [lemma, ...variants].map(normalize).join(' ').trim()
+    };
+    if (variants.length)            e.variants = variants;
+    if ($('register').value)        e.register = $('register').value;
+    if ($('morph').value.trim())    e.morph = $('morph').value.trim();
+    if ($('grammar').value.trim())  e.grammar = $('grammar').value.trim();
+    if ($('etym').value.trim())     e.etym = $('etym').value.trim();
+    const senses = splitLines($('senses').value);
+    if (senses.length)              e.senses = senses;
+    if (cites.length)               e.citations = cites;
+    const eq = splitList($('eq').value);
+    if (eq.length)                  e.eq = eq;
+    if ($('note').value.trim())     e.note = $('note').value.trim();
+    if ($('source').value.trim())   e.source = $('source').value.trim();
+    if ($('page').value.trim())     e.page = $('page').value.trim();
+    return e;
+  }
+
+  // ----- vista en vivo -----
+  function sync(){
+    const e = collect();
+    $('preview').innerHTML = e.lemma
+      ? renderEntry(e)
+      : '<div class="notice">Escribe un lema para ver la vista previa.</div>';
+    $('json').textContent = JSON.stringify(e, null, 2);
+  }
+
+  ['lemma','variants','register','morph','grammar','etym','senses','eq','note','source','page']
+    .forEach(id => $(id).addEventListener('input', sync));
+
+  // ----- acciones -----
+  function refreshStack(){
+    $('pendCount').textContent = pending.length;
+    $('pendList').innerHTML = pending.map(e =>
+      `<li>${esc(e.lemma)} <span style="color:#a99877">· ${esc(e.id)}</span></li>`).join('');
+  }
+
+  $('form').addEventListener('submit', ev => {
+    ev.preventDefault();
+    const e = collect();
+    if (!e.lemma){ toast('Falta el lema.'); return; }
+    pending.push(e);
+    refreshStack();
+    toast('Añadida: ' + e.lemma);
+    $('form').reset();
+    citesBox.innerHTML = '';
+    $('source').value = 'De Miguel–Morante 1878';
+    $('lemma').focus();
+    sync();
+  });
+
+  $('clear').addEventListener('click', () => {
+    $('form').reset(); citesBox.innerHTML = '';
+    $('source').value = 'De Miguel–Morante 1878'; sync();
+  });
+
+  $('file').addEventListener('change', ev => {
+    const f = ev.target.files[0]; if (!f) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const data = JSON.parse(reader.result);
+        if (!Array.isArray(data)) throw new Error('no es una lista');
+        pending = data;
+        refreshStack();
+        $('loaded').textContent = pending.length + ' entradas cargadas en memoria.';
+        toast('Cargadas ' + pending.length + ' entradas.');
+      } catch (err) {
+        toast('No es un entries.json válido.');
+      }
+    };
+    reader.readAsText(f);
+  });
+
+  function downloadJSON(){
+    const blob = new Blob([JSON.stringify(pending, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'entries.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+  }
+  $('download').addEventListener('click', () => {
+    if (!pending.length){ toast('No hay entradas que descargar.'); return; }
+    downloadJSON();
+  });
+
+  function copy(text, msg){
+    navigator.clipboard?.writeText(text).then(
+      () => toast(msg),
+      () => toast('Copia manual: selecciona el texto.')
+    );
+  }
+  $('copyAll').addEventListener('click', () => {
+    if (!pending.length){ toast('La lista está vacía.'); return; }
+    copy(JSON.stringify(pending, null, 2), 'JSON completo copiado.');
+  });
+  $('copyOne').addEventListener('click', () => copy($('json').textContent, 'Entrada copiada.'));
+
+  // ----- toast -----
+  let tt;
+  function toast(msg){
+    const el = $('toast'); el.textContent = msg; el.classList.add('show');
+    clearTimeout(tt); tt = setTimeout(() => el.classList.remove('show'), 2200);
+  }
+
+  addCiteRow();   // una fila de cita por defecto
+  sync();
+  refreshStack();
+})();
+</script>
+</body>
+</html>
