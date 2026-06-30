@@ -90,6 +90,18 @@ body{
 .masthead__nav a:focus-visible{ border-bottom-color:var(--rubric); }
 .masthead__nav span{ color:var(--rule); margin:0 .55rem; }
 
+/* ---------- Instalar app (PWA) ---------- */
+.install{ margin-top:.9rem; }
+.install__btn{ display:inline-flex; align-items:center; gap:.45rem; }
+.install__btn svg{ width:14px; height:14px; }
+.install__hint{
+  display:flex; align-items:center; gap:.5rem;
+  font-family:var(--ui); font-size:.74rem; color:var(--ink-soft);
+  margin:0; max-width:30rem;
+}
+.install__hint svg{ width:16px; height:16px; color:var(--rubric); flex:none; }
+.install__hint b{ color:var(--ink); font-weight:600; }
+
 /* ---------- Buscador ---------- */
 
 .search{ position:relative; margin-bottom:.4rem; }
@@ -118,6 +130,18 @@ body{
   position:absolute; right:.85rem; top:50%; transform:translateY(-50%);
   color:var(--rubric); pointer-events:none; opacity:.8;
 }
+.search__clear{
+  position:absolute; right:.5rem; top:50%; transform:translateY(-50%);
+  width:2rem; height:2rem; display:none; align-items:center; justify-content:center;
+  padding:0; background:none; border:0; border-radius:50%;
+  color:var(--ink-soft); cursor:pointer;
+}
+.search__clear:hover, .search__clear:focus-visible{
+  color:var(--rubric); background:var(--paper-deep); outline:none;
+}
+.search.has-text .search__clear{ display:inline-flex; }
+.search.has-text .search__icon{ display:none; }
+.search__field::-webkit-search-cancel-button{ -webkit-appearance:none; appearance:none; }
 .search__count{
   font-family:var(--ui);
   font-size:.72rem;
@@ -411,3 +435,134 @@ legend{
 @media (prefers-reduced-motion:reduce){
   *{ transition:none !important; animation:none !important; }
 }
+
+/* ---------- Colofón (autoría y licencia) ---------- */
+.colophon{
+  margin-top:3.5rem; padding-top:.5rem;
+  font-family:var(--ui); font-size:.74rem; line-height:1.65;
+  color:var(--ink-soft);
+}
+.colophon p{ margin:.35rem 0; max-width:46rem; }
+.colophon b{ color:var(--ink); font-weight:600; }
+.colophon i{ font-family:var(--serif); font-style:italic; }
+.colophon a{
+  color:var(--rubric); text-decoration:none;
+  border-bottom:1px solid transparent;
+}
+.colophon a:hover, .colophon a:focus-visible{ border-bottom-color:var(--rubric); }
+.colophon__orn{
+  text-align:center; color:var(--rubric);
+  font-size:1.3rem; margin:0 0 1.1rem;
+}
+
+/* ============================================================
+   Lector (texto con palabras enlazadas al diccionario)
+   ============================================================ */
+
+.reader-intro{
+  font-family:var(--ui); font-size:.8rem; color:var(--ink-soft);
+  margin:0 0 1.4rem; max-width:42rem;
+}
+.reader-intro b{ color:var(--ink); }
+
+.reader{
+  font-family:var(--serif); font-size:1.18rem; line-height:1.95;
+  white-space:pre-wrap; color:var(--ink);
+}
+.tok--link{
+  cursor:pointer;
+  border-bottom:1px dotted var(--rubric-dim);
+  transition:background .12s ease, color .12s ease;
+  border-radius:2px;
+}
+.tok--link:hover, .tok--link:focus-visible{
+  background:var(--paper-deep); color:var(--rubric); outline:none;
+}
+.tok--active{ background:var(--paper-deep); color:var(--rubric); }
+
+.edit-bar{
+  margin:1.6rem 0 0; display:flex; align-items:center; gap:.8rem; flex-wrap:wrap;
+}
+.edit-area{ margin-top:1rem; }
+.edit-area[hidden]{ display:none; }
+.edit-area textarea{
+  width:100%; min-height:8rem; resize:vertical;
+  font-family:var(--serif); font-size:1rem; line-height:1.6; color:var(--ink);
+  background:#fff; border:1px solid var(--rule); border-radius:2px; padding:.7rem .8rem;
+}
+.edit-area textarea:focus-visible{
+  outline:none; border-color:var(--focus); box-shadow:0 0 0 3px rgba(53,91,107,.18);
+}
+.edit-area .hint{
+  font-family:var(--ui); font-size:.72rem; color:var(--ink-soft);
+  margin:.5rem 0 0;
+}
+.edit-area code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.82em;
+  background:var(--paper-deep); padding:.1rem .35rem; border-radius:2px;
+}
+
+/* ---------- Ventana emergente ---------- */
+.pop-backdrop{
+  position:fixed; inset:0; background:rgba(34,28,20,.22); z-index:40;
+}
+.pop-backdrop[hidden]{ display:none; }
+.pop{
+  position:fixed; z-index:41;
+  width:min(92vw,430px); max-height:72vh; overflow:auto;
+  background:#fbf7ee; border:1px solid var(--rule); border-radius:3px;
+  box-shadow:0 16px 44px rgba(60,45,20,.28);
+  padding:.4rem 1.1rem 1.1rem;
+}
+.pop[hidden]{ display:none; }
+.pop__close{
+  position:sticky; top:0; margin-left:auto; display:flex; margin-bottom:-1.2rem;
+  width:2rem; height:2rem; align-items:center; justify-content:center;
+  background:#fbf7ee; border:0; border-radius:50%; cursor:pointer; color:var(--ink-soft);
+}
+.pop__close:hover, .pop__close:focus-visible{ color:var(--rubric); background:var(--paper-deep); outline:none; }
+.pop .entry{ padding-top:.4rem; }
+.pop .entry:first-of-type{ border-top:0; }
+
+@media (max-width:520px){
+  .pop{
+    left:0 !important; right:0; bottom:0; top:auto !important;
+    width:100%; max-width:100%; max-height:82vh;
+    border-radius:14px 14px 0 0; padding-bottom:1.6rem;
+  }
+}
+
+/* ---------- Editor: edición de entradas existentes ---------- */
+.edit-banner{
+  font-family:var(--ui); font-size:.76rem; color:var(--ink);
+  background:#f6e9d9; border:1px solid var(--rule); border-left:3px solid var(--rubric);
+  border-radius:2px; padding:.5rem .7rem; margin:0 0 .9rem;
+}
+.edit-banner[hidden]{ display:none; }
+.edit-banner b{ color:var(--rubric); }
+
+.pend-filter{
+  width:100%; margin:.6rem 0 .2rem;
+  font-family:var(--serif); font-size:.92rem; color:var(--ink);
+  background:#fff; border:1px solid var(--rule); border-radius:2px; padding:.4rem .6rem;
+}
+.pend-filter:focus-visible{ outline:none; border-color:var(--focus); box-shadow:0 0 0 3px rgba(53,91,107,.18); }
+
+#pendList li{
+  display:flex; align-items:center; gap:.5rem; margin:.1rem 0;
+}
+#pendList .pend-edit{
+  flex:1; text-align:left; appearance:none; background:none; border:0; cursor:pointer;
+  font-family:var(--serif); font-size:.95rem; color:var(--ink); padding:.25rem .2rem;
+  border-bottom:1px dotted transparent;
+}
+#pendList .pend-edit:hover, #pendList .pend-edit:focus-visible{
+  color:var(--rubric); outline:none; border-bottom-color:var(--rule);
+}
+#pendList .pend-edit small{ color:#a99877; }
+#pendList .pend-del{
+  appearance:none; background:none; border:0; cursor:pointer; color:#bfae8d;
+  font-size:1rem; line-height:1; padding:.2rem .35rem; border-radius:2px; flex:none;
+}
+#pendList .pend-del:hover, #pendList .pend-del:focus-visible{ color:var(--rubric); background:var(--paper-deep); outline:none; }
+#pendList li.is-editing .pend-edit{ color:var(--rubric); font-weight:600; }

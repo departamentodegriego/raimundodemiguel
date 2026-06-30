@@ -4,6 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Añadir entradas — Lexicon</title>
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="Lexicon">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<meta name="theme-color" content="#f4efe2">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -109,13 +115,16 @@
         </div>
       </fieldset>
 
+      <p id="editBanner" class="edit-banner" hidden></p>
       <div class="btnbar">
-        <button type="submit" class="btn">Añadir entrada a la lista</button>
-        <button type="button" class="btn btn--ghost" id="clear">Vaciar formulario</button>
+        <button type="submit" class="btn" id="submitBtn">Añadir entrada a la lista</button>
+        <button type="button" class="btn btn--ghost" id="clear">Vaciar / nueva entrada</button>
       </div>
 
       <div class="stack">
-        <strong id="pendCount">0</strong> entradas en la lista lista para exportar.
+        <strong id="pendCount">0</strong> entradas en la lista. Toca una para editarla.
+        <input id="pendFilter" class="pend-filter" type="search" placeholder="Filtrar lemas…"
+               autocomplete="off" autocapitalize="off" spellcheck="false">
         <ul id="pendList"></ul>
         <div class="btnbar" style="margin:.8rem 0 0">
           <button type="button" class="btn" id="download">Descargar entries.json</button>
@@ -144,7 +153,29 @@
 <script>
 (function(){
   const $ = id => document.getElementById(id);
-  let pending = [];   // entradas acumuladas (cargadas + añadidas)
+  let pending = [];      // entradas acumuladas (cargadas + añadidas)
+  let editingId = null;  // id de la entrada en edición, o null si es nueva
+
+  function setMode(){
+    if (editingId){
+      const e = pending.find(x => x.id === editingId);
+      $('submitBtn').textContent = 'Guardar cambios';
+      $('editBanner').hidden = false;
+      $('editBanner').innerHTML = `Editando <b>${esc(e ? e.lemma : '')}</b>. Al guardar se reemplaza esa entrada.`;
+    } else {
+      $('submitBtn').textContent = 'Añadir entrada a la lista';
+      $('editBanner').hidden = true;
+    }
+  }
+
+  function clearForm(){
+    $('form').reset();
+    citesBox.innerHTML = '';
+    $('source').value = 'De Miguel–Morante 1878';
+    editingId = null;
+    setMode();
+    sync();
+  }
 
   // ----- citas dinámicas -----
   const citesBox = $('cites');
@@ -185,7 +216,7 @@
     })).filter(c => c.la || c.au || c.es);
 
     const e = {
-      id: uniqueId(normalize(lemma)),
+      id: editingId || uniqueId(normalize(lemma)),
       lemma,
       search: [lemma, ...variants].map(normalize).join(' ').trim()
     };
@@ -232,31 +263,79 @@
     ta.focus(); sync();
   });
 
-  // ----- acciones -----
-  function refreshStack(){
-    $('pendCount').textContent = pending.length;
-    $('pendList').innerHTML = pending.map(e =>
-      `<li>${esc(e.lemma)} <span style="color:#a99877">· ${esc(e.id)}</span></li>`).join('');
+  // ----- cargar una entrada existente en el formulario -----
+  function loadEntryIntoForm(e){
+    $('lemma').value    = e.lemma || '';
+    $('variants').value = (e.variants || []).join(', ');
+    $('register').value = e.register || '';
+    $('morph').value    = e.morph || '';
+    $('grammar').value  = e.grammar || '';
+    $('etym').value     = e.etym || '';
+    $('senses').value   = (e.senses || []).join('\n');
+    $('eq').value       = (e.eq || []).join(', ');
+    $('note').value     = e.note || '';
+    $('source').value   = e.source || 'De Miguel–Morante 1878';
+    $('page').value     = e.page || '';
+    citesBox.innerHTML = '';
+    (e.citations || []).forEach(c => addCiteRow(c));
+    editingId = e.id;
+    setMode();
+    sync();
+    refreshStack();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    $('lemma').focus();
   }
 
+  // ----- lista de entradas (con filtro) -----
+  function refreshStack(){
+    $('pendCount').textContent = pending.length;
+    const f = normalize($('pendFilter').value);
+    const list = f
+      ? pending.filter(e => searchKey(e).split(' ').some(k => k.includes(f)))
+      : pending;
+    $('pendList').innerHTML = list.map(e => {
+      const cls = e.id === editingId ? ' class="is-editing"' : '';
+      return `<li${cls}>
+        <button type="button" class="pend-edit" data-id="${esc(e.id)}">${esc(e.lemma)} <small>· ${esc(e.id)}</small></button>
+        <button type="button" class="pend-del" data-del="${esc(e.id)}" aria-label="Borrar ${esc(e.lemma)}">✕</button>
+      </li>`;
+    }).join('');
+    $('pendList').querySelectorAll('.pend-edit').forEach(b =>
+      b.addEventListener('click', () => {
+        const e = pending.find(x => x.id === b.dataset.id);
+        if (e) loadEntryIntoForm(e);
+      }));
+    $('pendList').querySelectorAll('.pend-del').forEach(b =>
+      b.addEventListener('click', () => {
+        const e = pending.find(x => x.id === b.dataset.del);
+        if (!e) return;
+        if (!confirm('¿Borrar la entrada «' + e.lemma + '»?')) return;
+        pending = pending.filter(x => x.id !== b.dataset.del);
+        if (editingId === b.dataset.del) clearForm();
+        refreshStack();
+        toast('Borrada: ' + e.lemma);
+      }));
+  }
+  $('pendFilter').addEventListener('input', refreshStack);
+
+  // ----- guardar (añadir nueva o reemplazar la editada) -----
   $('form').addEventListener('submit', ev => {
     ev.preventDefault();
     const e = collect();
     if (!e.lemma){ toast('Falta el lema.'); return; }
-    pending.push(e);
+    if (editingId){
+      const i = pending.findIndex(x => x.id === editingId);
+      if (i >= 0) pending[i] = e; else pending.push(e);
+      toast('Guardada: ' + e.lemma);
+    } else {
+      pending.push(e);
+      toast('Añadida: ' + e.lemma);
+    }
+    clearForm();
     refreshStack();
-    toast('Añadida: ' + e.lemma);
-    $('form').reset();
-    citesBox.innerHTML = '';
-    $('source').value = 'De Miguel–Morante 1878';
-    $('lemma').focus();
-    sync();
   });
 
-  $('clear').addEventListener('click', () => {
-    $('form').reset(); citesBox.innerHTML = '';
-    $('source').value = 'De Miguel–Morante 1878'; sync();
-  });
+  $('clear').addEventListener('click', clearForm);
 
   $('file').addEventListener('change', ev => {
     const f = ev.target.files[0]; if (!f) return;
@@ -309,6 +388,7 @@
   }
 
   addCiteRow();   // una fila de cita por defecto
+  setMode();
   sync();
   refreshStack();
 })();
